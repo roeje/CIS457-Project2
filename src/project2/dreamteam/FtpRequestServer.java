@@ -1,21 +1,21 @@
-package com.company;
+package project2.dreamteam;
 
 import java.io.* ;
 import java.net.* ;
 import java.util.* ;
 
-final class CentralRequestServer implements Runnable {
-   final static String CRLF = "\r\n";
-   String clientName;
-   int dataPort;
-   Socket controlSocket;
+final class FtpRequestServer implements Runnable {
+    final static String CRLF = "\r\n";
+    String clientName;
+    int dataPort;
+    Socket controlSocket;   
 
-   // Control Connection
-   DataInputStream controlIn;
-   DataOutputStream controlOut;
+    // Control Connection
+    DataInputStream controlIn;
+    DataOutputStream controlOut;
 
-   // Constructor
-   CentralRequestServer(Socket socket) throws Exception {
+    // Constructor
+    FtpRequestServer(Socket socket) throws Exception {
       try {
          controlSocket = socket;
          controlIn = new DataInputStream(controlSocket.getInputStream());
@@ -23,34 +23,34 @@ final class CentralRequestServer implements Runnable {
       } catch (Exception e) {
          System.out.println(e);
       }
-   }
+    }
 
-   // Implement logic to list content of current working directory
-   void listDirContents() {
+    // Implement logic to list content of current working directory
+    void listDirContents() {
 
       System.out.println("Sending list of all directory files...");
 
-      try {
+      try {        
 
         // Establish connection to client data TCP socket
         Socket dataSocket = new Socket(clientName, dataPort);
         DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
-
+        
         // Get array of all files in current directory
-        File[] files = new File(".").listFiles();
-
+        File[] files = new File(".").listFiles();     
+      
         for (File file : files) {
           dout.writeUTF(file.getName());
         }
         dout.writeUTF("END");
-
+        
         dout.close();
         dout.flush();
         controlOut.flush();
-        dataSocket.close();
+        dataSocket.close(); 
 
-        System.out.println("File List Sent To Client.");
-
+        System.out.println("File List Sent To Client.");     
+      
       } catch (Exception e) {
          System.out.println(e);
       }
@@ -65,7 +65,7 @@ final class CentralRequestServer implements Runnable {
         // Connect to client data TCP socket
          Socket dataSocket = new Socket(clientName, dataPort);
          DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
-
+         
          File file = new File(fileName);
          byte[] bytes = new byte[(int)file.length()];
 
@@ -80,8 +80,8 @@ final class CentralRequestServer implements Runnable {
          dout.write(bytes, 0, bytes.length);
 
          dataSocket.close();
-         dout.flush();
-
+         dout.flush();         
+         
          System.out.println("File Sent To Client.");
 
       } catch (Exception e) {
@@ -94,14 +94,14 @@ final class CentralRequestServer implements Runnable {
    void saveFile(String fileName) {
       System.out.println("File: " + fileName + " received from Client.");
       try {
-
+      
          Socket dataSocket = new Socket(clientName, dataPort);
          // InputStream in = dataSocket.getInputStream();
          // DataInputStream din = new DataInputStream(in);
          DataInputStream din = new DataInputStream(dataSocket.getInputStream());
-
+      
          int bytes;
-
+      
          OutputStream out = new FileOutputStream(("copy_" + fileName));
          long sizeOfData = din.readLong();
          byte[] buffer = new byte[1024];
@@ -109,13 +109,13 @@ final class CentralRequestServer implements Runnable {
             out.write(buffer, 0, bytes);
             sizeOfData -= bytes;
          }
-
-         out.close();
-         dataSocket.close();
-
-
+      
+         out.close();      
+         dataSocket.close();    
+      
+         
          System.out.println("File Saved Successfully...");
-
+      
       } catch (Exception e) {
            System.out.println(e);
       }
@@ -128,8 +128,8 @@ final class CentralRequestServer implements Runnable {
       System.out.println("Server Thread Started:");
       while(true) {
          try {
-
-            String cmd = controlIn.readUTF();
+          
+            String cmd = controlIn.readUTF(); 
             System.out.println("Server recieved command: " + cmd);
 
             switch(cmd.toUpperCase()) {
@@ -146,11 +146,11 @@ final class CentralRequestServer implements Runnable {
                   break;
                case "QUIT":
                   System.out.println("Client Disconnecting...");
-                  controlSocket.close();
+                  controlSocket.close();                  
                   return;
                case "DATA":
                   clientName = controlIn.readUTF();
-                  dataPort = Integer.parseInt(controlIn.readUTF());
+                  dataPort = Integer.parseInt(controlIn.readUTF());                  
                   break;
                case "TEST":
                   break;

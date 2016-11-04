@@ -1,14 +1,10 @@
-package com.company;
+package project2.dreamteam;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.MatteBorder;

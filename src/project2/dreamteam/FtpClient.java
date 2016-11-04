@@ -1,8 +1,4 @@
-package com.company;
-
-import java.io.* ;
-import java.net.* ;
-import java.util.* ;
+package project2.dreamteam;
 
 /*
    CIS 457 - Project 1

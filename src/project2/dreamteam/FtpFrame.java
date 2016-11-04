@@ -1,4 +1,4 @@
-package com.company;
+package project2.dreamteam;
 
 import java.awt.*;
 

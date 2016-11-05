@@ -45,7 +45,6 @@ final class FtpRequestClient implements Runnable {
       gui.startGui();
 //      gui.addWindowListener(new ExitListener(this));
 
-
       br = new BufferedReader(new InputStreamReader(System.in));
    }
 

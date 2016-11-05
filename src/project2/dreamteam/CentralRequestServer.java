@@ -25,6 +25,34 @@ final class CentralRequestServer implements Runnable {
       }
    }
 
+   void saveUserDetails() {
+      System.out.println("User save command received from Client.");
+
+      String username;
+      String hostname;
+      String connectionSpeed;
+      try {
+
+         Socket dataSocket = new Socket(clientName, dataPort);
+         DataInputStream din = new DataInputStream(dataSocket.getInputStream());
+
+         username = din.readUTF();
+         hostname = din.readUTF();
+         connectionSpeed = din.readUTF();
+
+
+         /*Save data to global data object*/
+
+         dataSocket.close();
+
+         System.out.println("User Info Saved Successfully...");
+
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+
+   }
+
    // Implement logic to list content of current working directory
    void listDirContents() {
 
@@ -58,7 +86,7 @@ final class CentralRequestServer implements Runnable {
 
    // Implement logic to send file to client
    void retreveFile(String fileName) {
-      System.out.println("Retreving File: " + fileName);
+      System.out.println("Retrieving File: " + fileName);
 
       try{
 
@@ -151,6 +179,9 @@ final class CentralRequestServer implements Runnable {
                case "DATA":
                   clientName = controlIn.readUTF();
                   dataPort = Integer.parseInt(controlIn.readUTF());
+                  break;
+               case "SENDUSERDATA":
+                  saveUserDetails();
                   break;
                case "TEST":
                   break;

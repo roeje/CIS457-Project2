@@ -18,6 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GuiFrame extends JFrame {
 
@@ -29,6 +31,7 @@ public class GuiFrame extends JFrame {
 	private JTextField usernameField;
 	private JTextField portField;
 	private JTextField hostnameField;
+	private JTextField fileListNameField;
 
 	public static FtpRequestClient client;
 
@@ -41,7 +44,7 @@ public class GuiFrame extends JFrame {
 		this.client = clientInstance;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 693, 569);
+		setBounds(100, 100, 757, 690);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -50,7 +53,7 @@ public class GuiFrame extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setToolTipText("Connection");
 		panel.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "Connection", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 11, 657, 123);
+		panel.setBounds(10, 11, 721, 142);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -59,6 +62,9 @@ public class GuiFrame extends JFrame {
 		panel.add(lblServerIp);
 
 		serverIPField = new JTextField();
+
+		/*Set Default IP address*/
+		serverIPField.setText("localhost");
 		serverIPField.setBounds(74, 22, 86, 20);
 		panel.add(serverIPField);
 		serverIPField.setColumns(10);
@@ -68,6 +74,9 @@ public class GuiFrame extends JFrame {
 		panel.add(lblUsername);
 
 		usernameField = new JTextField();
+
+		/*Set Default User*/
+		usernameField.setText("testUser");
 		usernameField.setBounds(74, 59, 86, 20);
 		panel.add(usernameField);
 		usernameField.setColumns(10);
@@ -77,6 +86,8 @@ public class GuiFrame extends JFrame {
 		panel.add(lblPort);
 
 		portField = new JTextField();
+
+		portField.setText("3202");
 		portField.setBounds(320, 22, 86, 20);
 		panel.add(portField);
 		portField.setColumns(10);
@@ -95,7 +106,7 @@ public class GuiFrame extends JFrame {
 			}
 		});
 
-		btnConnect.setBounds(475, 21, 89, 23);
+		btnConnect.setBounds(10, 101, 89, 23);
 		panel.add(btnConnect);
 
 		JLabel lblHostname = new JLabel("Hostname: ");
@@ -108,16 +119,63 @@ public class GuiFrame extends JFrame {
 		hostnameField.setColumns(10);
 
 		JLabel lblSpeed = new JLabel("Speed: ");
-		lblSpeed.setBounds(438, 62, 46, 14);
+		lblSpeed.setBounds(476, 25, 46, 14);
 		panel.add(lblSpeed);
 
 		JComboBox speedDropdown = new JComboBox();
-		speedDropdown.setBounds(494, 59, 28, 20);
+
+		speedDropdown.addItem("Ethernet");
+		speedDropdown.addItem("T1");
+		speedDropdown.addItem("DSL");
+		speedDropdown.addItem("Dial-Up");
+
+		speedDropdown.setBounds(566, 22, 107, 20);
 		panel.add(speedDropdown);
+
+		JButton btnDisconnect = new JButton("Disconnect");
+
+		btnDisconnect.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+
+			}
+		});
+
+		btnDisconnect.setBounds(109, 101, 89, 23);
+		panel.add(btnDisconnect);
+
+		JLabel lblFileListName = new JLabel("File List Name:");
+		lblFileListName.setBounds(476, 62, 84, 14);
+		panel.add(lblFileListName);
+
+		fileListNameField = new JTextField();
+		fileListNameField.setBounds(566, 59, 107, 20);
+		panel.add(fileListNameField);
+		fileListNameField.setColumns(10);
+
+		JButton btnUnregister = new JButton("Unregister");
+
+
+		btnUnregister.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+
+			}
+		});
+
+
+		btnUnregister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnUnregister.setBounds(584, 101, 89, 23);
+		panel.add(btnUnregister);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "File Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 145, 657, 185);
+		panel_1.setBounds(10, 164, 721, 236);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -134,11 +192,11 @@ public class GuiFrame extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
 					// Run Search Command
-			    }
+				}
 
 			}
 		});
-		keywordField.setBounds(75, 21, 460, 20);
+		keywordField.setBounds(75, 21, 537, 20);
 		panel_1.add(keywordField);
 		keywordField.setColumns(10);
 
@@ -153,25 +211,25 @@ public class GuiFrame extends JFrame {
 
 
 		btnSearch.setBackground(new Color(240, 240, 240));
-		btnSearch.setBounds(558, 20, 89, 23);
+		btnSearch.setBounds(622, 20, 89, 23);
 		panel_1.add(btnSearch);
 
 		table = new JTable();
-		table.setBounds(10, 54, 637, 120);
+		table.setBounds(10, 54, 701, 171);
 		panel_1.add(table);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "FTP", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(10, 341, 657, 178);
+		panel_2.setBounds(10, 410, 721, 230);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
 		TextArea textArea = new TextArea();
-		textArea.setBounds(10, 57, 637, 113);
+		textArea.setBounds(10, 57, 701, 163);
 		panel_2.add(textArea);
 
 		JLabel lblCommand = new JLabel("Command: ");
-		lblCommand.setBounds(10, 24, 56, 14);
+		lblCommand.setBounds(10, 24, 69, 14);
 		panel_2.add(lblCommand);
 
 		commandField = new JTextField();
@@ -182,11 +240,11 @@ public class GuiFrame extends JFrame {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 
 					// Run FTP Command
-			    }
+				}
 			}
 		});
 
-		commandField.setBounds(75, 21, 456, 20);
+		commandField.setBounds(89, 21, 523, 20);
 		panel_2.add(commandField);
 		commandField.setColumns(10);
 
@@ -200,7 +258,7 @@ public class GuiFrame extends JFrame {
 		});
 
 
-		btnGo.setBounds(558, 20, 89, 23);
+		btnGo.setBounds(622, 20, 89, 23);
 		panel_2.add(btnGo);
 	}
 
@@ -232,6 +290,4 @@ public class GuiFrame extends JFrame {
 			}
 		});
 	}
-
-
 }

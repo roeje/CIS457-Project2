@@ -29,7 +29,7 @@ public final class CentralServer {
 
    	// Establish the listen socket.
    	ServerSocket socket = new ServerSocket(port);
-      System.out.println("Central Server started on port: " + port);
+    System.out.println("Central Server started on port: " + port);
 
    	while (true) {
 

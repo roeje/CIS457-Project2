@@ -5,7 +5,7 @@ import java.net.* ;
 import java.util.* ;
 
 /*
-   CIS 457 - Project 1
+   CIS 457 - Project 2
 
    Created by:
 
@@ -17,8 +17,8 @@ import java.util.* ;
 
 /*
    
-   Client Class that handles logic related to sending and receving files and commands
-   over TCP connctions
+   Client Class that handles logic related to sending and receiving files and commands
+   over TCP connections
 
 */
 
@@ -91,10 +91,43 @@ final class FtpRequestClient implements Runnable {
       }
    }
 
+   void sendUserDetails (String username, String hostname, String connectionSpeed) {
+
+      System.out.println("Sending file: User Info to Server...");
+      try{
+
+         // Send command to server
+         controlOut.writeUTF("SENDUSERDATA");
+
+
+         // Create data TCP connection
+         ServerSocket server = new ServerSocket(dataPort);
+         Socket dataSocket = server.accept();
+
+         // Create output stream to send file
+         DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
+
+         // Get file by name
+         dout.writeUTF(username);
+         dout.writeUTF(hostname);
+         dout.writeUTF(connectionSpeed);
+         dout.flush();
+
+         // Close data TCP connection
+         server.close();
+         dataSocket.close();
+         System.out.println("User Info Sent To Server...");
+
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+
+   }
+
    // Implement logic to List server directory contents
    void listDirContents() {
 
-      System.out.println("Requesting Dirctory Contents...");
+      System.out.println("Requesting Directory Contents...");
       try {
 
          // Send connand to server
@@ -111,7 +144,7 @@ final class FtpRequestClient implements Runnable {
          // Read in each file and and print in terminal
          String file = din.readUTF();
 
-         System.out.println("Files Receved Are: ");
+         System.out.println("Files Received Are: ");
          while (!(file.equals("END"))) {
             System.out.println(file);
             file = din.readUTF();
@@ -165,7 +198,7 @@ final class FtpRequestClient implements Runnable {
          server.close();
          dataSocket.close();
          
-         System.out.println("File Saved To Client Directory Sucessfully...");
+         System.out.println("File Saved To Client Directory Successfully...");
 
       } catch (Exception e) {
            System.out.println(e);
@@ -265,7 +298,7 @@ final class FtpRequestClient implements Runnable {
                      listDirContents();
                      break;
                   case "RETR":
-                     System.out.println("User entered Retreve file: " + cmd[1]);
+                     System.out.println("User entered Retrieve file: " + cmd[1]);
                      requestFile(cmd[1]);
                      break;
                   case "STOR":

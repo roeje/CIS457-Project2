@@ -30,26 +30,16 @@ public class GuiFrame extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String args[]) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GuiFrame frame = new GuiFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public static FtpRequestClient client;
+
 
 	/**
 	 * Create the frame.
 	 */
-	public GuiFrame() {
+	public GuiFrame(FtpRequestClient clientInstance) {
+
+		this.client = clientInstance;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 693, 569);
 		contentPane = new JPanel();
@@ -209,6 +199,35 @@ public class GuiFrame extends JFrame {
 
 		btnGo.setBounds(558, 20, 89, 23);
 		panel_2.add(btnGo);
+	}
+
+	public void startGui() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuiFrame frame = new GuiFrame(client);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuiFrame frame = new GuiFrame(client);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 

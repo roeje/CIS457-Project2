@@ -26,7 +26,9 @@ final class FtpRequestClient implements Runnable {
    int controlPort;
    int dataPort;
    String serverName;   
-   Socket controlSocket;   
+   Socket controlSocket;
+
+   public static GuiFrame gui;
 
    // Control Connection
    DataInputStream controlIn;
@@ -37,6 +39,13 @@ final class FtpRequestClient implements Runnable {
 
    // Constructor for class
    FtpRequestClient() throws Exception {
+
+      System.out.println("Creating Gui");
+      gui = new GuiFrame(this);
+      gui.startGui();
+//      gui.addWindowListener(new ExitListener(this));
+
+
       br = new BufferedReader(new InputStreamReader(System.in));
    }
 
@@ -213,7 +222,19 @@ final class FtpRequestClient implements Runnable {
         System.out.println(e);
       }
 
-   }   
+   }
+
+   void disconnect() {
+
+      try {
+         controlOut.writeUTF("QUIT");
+         System.out.println("Client Disconnected From: " + serverName);
+         controlSocket.close();
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+
+   }
 
    // Implement the run() method of the Runnable interface.
    public void run() {
@@ -253,9 +274,7 @@ final class FtpRequestClient implements Runnable {
                      sendFile(cmd[1]);
                      break;
                   case "QUIT":
-                     controlOut.writeUTF("QUIT");
-                     System.out.println("Client Disconnected From: " + serverName);
-                     controlSocket.close();                     
+                     disconnect();
                      break;
                }
             }

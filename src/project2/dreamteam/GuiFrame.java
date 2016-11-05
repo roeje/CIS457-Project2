@@ -22,13 +22,13 @@ import java.awt.event.KeyEvent;
 public class GuiFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField commandField;
+	private JTextField keywordField;
 	private JTable table;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField serverIPField;
+	private JTextField usernameField;
+	private JTextField portField;
+	private JTextField hostnameField;
 
 	public static FtpRequestClient client;
 
@@ -58,28 +58,28 @@ public class GuiFrame extends JFrame {
 		lblServerIp.setBounds(10, 25, 60, 14);
 		panel.add(lblServerIp);
 
-		textField_2 = new JTextField();
-		textField_2.setBounds(74, 22, 86, 20);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
+		serverIPField = new JTextField();
+		serverIPField.setBounds(74, 22, 86, 20);
+		panel.add(serverIPField);
+		serverIPField.setColumns(10);
 
 		JLabel lblUsername = new JLabel("Username: ");
 		lblUsername.setBounds(10, 62, 60, 14);
 		panel.add(lblUsername);
 
-		textField_3 = new JTextField();
-		textField_3.setBounds(74, 59, 86, 20);
-		panel.add(textField_3);
-		textField_3.setColumns(10);
+		usernameField = new JTextField();
+		usernameField.setBounds(74, 59, 86, 20);
+		panel.add(usernameField);
+		usernameField.setColumns(10);
 
 		JLabel lblPort = new JLabel("Port: ");
 		lblPort.setBounds(249, 25, 46, 14);
 		panel.add(lblPort);
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(320, 22, 86, 20);
-		panel.add(textField_4);
-		textField_4.setColumns(10);
+		portField = new JTextField();
+		portField.setBounds(320, 22, 86, 20);
+		panel.add(portField);
+		portField.setColumns(10);
 
 		JButton btnConnect = new JButton("Connect");
 
@@ -88,6 +88,9 @@ public class GuiFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
+				String ip = serverIPField.getText();
+				int port = Integer.parseInt(portField.getText());
+				client.connectToServer(port, ip);
 
 			}
 		});
@@ -99,18 +102,18 @@ public class GuiFrame extends JFrame {
 		lblHostname.setBounds(249, 62, 65, 14);
 		panel.add(lblHostname);
 
-		textField_5 = new JTextField();
-		textField_5.setBounds(320, 59, 86, 20);
-		panel.add(textField_5);
-		textField_5.setColumns(10);
+		hostnameField = new JTextField();
+		hostnameField.setBounds(320, 59, 86, 20);
+		panel.add(hostnameField);
+		hostnameField.setColumns(10);
 
 		JLabel lblSpeed = new JLabel("Speed: ");
 		lblSpeed.setBounds(438, 62, 46, 14);
 		panel.add(lblSpeed);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(494, 59, 28, 20);
-		panel.add(comboBox);
+		JComboBox speedDropdown = new JComboBox();
+		speedDropdown.setBounds(494, 59, 28, 20);
+		panel.add(speedDropdown);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "File Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -122,9 +125,9 @@ public class GuiFrame extends JFrame {
 		lblKeyword.setBounds(10, 24, 56, 14);
 		panel_1.add(lblKeyword);
 
-		textField_1 = new JTextField();
+		keywordField = new JTextField();
 
-		textField_1.addKeyListener(new KeyAdapter() {
+		keywordField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
@@ -135,9 +138,9 @@ public class GuiFrame extends JFrame {
 
 			}
 		});
-		textField_1.setBounds(75, 21, 460, 20);
-		panel_1.add(textField_1);
-		textField_1.setColumns(10);
+		keywordField.setBounds(75, 21, 460, 20);
+		panel_1.add(keywordField);
+		keywordField.setColumns(10);
 
 		JButton btnSearch = new JButton("Search");
 
@@ -171,9 +174,9 @@ public class GuiFrame extends JFrame {
 		lblCommand.setBounds(10, 24, 56, 14);
 		panel_2.add(lblCommand);
 
-		textField = new JTextField();
+		commandField = new JTextField();
 
-		textField.addKeyListener(new KeyAdapter() {
+		commandField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -183,9 +186,9 @@ public class GuiFrame extends JFrame {
 			}
 		});
 
-		textField.setBounds(75, 21, 456, 20);
-		panel_2.add(textField);
-		textField.setColumns(10);
+		commandField.setBounds(75, 21, 456, 20);
+		panel_2.add(commandField);
+		commandField.setColumns(10);
 
 		JButton btnGo = new JButton("Go");
 

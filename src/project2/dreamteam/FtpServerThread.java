@@ -4,7 +4,7 @@ import java.io.* ;
 import java.net.* ;
 import java.util.* ;
 
-final class FtpRequestServer implements Runnable {
+final class FtpServerThread implements Runnable {
     final static String CRLF = "\r\n";
     String clientName;
     int dataPort;
@@ -15,7 +15,7 @@ final class FtpRequestServer implements Runnable {
     DataOutputStream controlOut;
 
     // Constructor
-    FtpRequestServer(Socket socket) throws Exception {
+    FtpServerThread(Socket socket) throws Exception {
       try {
          controlSocket = socket;
          controlIn = new DataInputStream(controlSocket.getInputStream());

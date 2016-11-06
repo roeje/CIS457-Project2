@@ -39,7 +39,7 @@ public final class FtpServer {
     	     Socket connection = socket.accept();
 
     	     // Create FTP request object
-    	     FtpRequestServer request = new FtpRequestServer(connection);
+    	     FtpServerThread request = new FtpServerThread(connection);
 
     	     // Create a new thread to process the request.
     	     Thread thread = new Thread(request);

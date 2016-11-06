@@ -9,7 +9,7 @@ import java.util.Vector;
 public class UserTable implements Serializable{
     private Vector <UserObject> users;
     public UserTable(){
-         this.users = new Vector<UserObject>();
+         this.users = new Vector<>();
     }
 
     public void addUser(String pUsername, String pConnectionSpeed, String pHostname){

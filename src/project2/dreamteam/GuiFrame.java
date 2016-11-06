@@ -32,14 +32,15 @@ public class GuiFrame extends JFrame {
 	private JTextField portField;
 	private JTextField hostnameField;
 	private JTextField fileListNameField;
+	private JComboBox speedDropdown;
 
-	public static FtpRequestClient client;
+	public static FtpClientThread client;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public GuiFrame(FtpRequestClient clientInstance) {
+	public GuiFrame(FtpClientThread clientInstance) {
 
 		this.client = clientInstance;
 
@@ -102,6 +103,7 @@ public class GuiFrame extends JFrame {
 				String ip = serverIPField.getText();
 				int port = Integer.parseInt(portField.getText());
 				client.connectToServer(port, ip);
+				client.sendUserDetails(usernameField.getText(), hostnameField.getText(), speedDropdown.getSelectedItem().toString());
 
 			}
 		});
@@ -122,7 +124,7 @@ public class GuiFrame extends JFrame {
 		lblSpeed.setBounds(476, 25, 46, 14);
 		panel.add(lblSpeed);
 
-		JComboBox speedDropdown = new JComboBox();
+		speedDropdown = new JComboBox();
 
 		speedDropdown.addItem("Ethernet");
 		speedDropdown.addItem("T1");

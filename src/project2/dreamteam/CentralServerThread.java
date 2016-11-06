@@ -4,19 +4,26 @@ import java.io.* ;
 import java.net.* ;
 import java.util.* ;
 
-final class CentralRequestServer implements Runnable {
+final class CentralServerThread implements Runnable {
    final static String CRLF = "\r\n";
    String clientName;
    int dataPort;
    Socket controlSocket;
+
+   static FileTable files;
+   static UserTable users;
 
    // Control Connection
    DataInputStream controlIn;
    DataOutputStream controlOut;
 
    // Constructor
-   CentralRequestServer(Socket socket) throws Exception {
+   CentralServerThread(Socket socket, UserTable users, FileTable files) throws Exception {
       try {
+
+         this.files = files;
+         this.users = users;
+
          controlSocket = socket;
          controlIn = new DataInputStream(controlSocket.getInputStream());
          controlOut = new DataOutputStream(controlSocket.getOutputStream());
@@ -40,12 +47,47 @@ final class CentralRequestServer implements Runnable {
          hostname = din.readUTF();
          connectionSpeed = din.readUTF();
 
+         System.out.println(username);
+         System.out.println(connectionSpeed);
+         System.out.println(hostname);
+
 
          /*Save data to global data object*/
 
          dataSocket.close();
 
          System.out.println("User Info Saved Successfully...");
+
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+
+   }
+
+   void keywordSearchResults() {
+      System.out.println("Keyword Results Request Received");
+
+      String keyword;
+
+      try {
+
+         Socket dataSocket = new Socket(clientName, dataPort);
+         DataInputStream din = new DataInputStream(dataSocket.getInputStream());
+         ObjectOutputStream dout = new ObjectOutputStream(dataSocket.getOutputStream());
+
+         keyword = din.readUTF();
+         System.out.println(keyword);
+
+         Vector<FileObject> results = files.searchByDesctiption(keyword);
+         dout.writeObject(results);
+
+
+
+         /*Save data to global data object*/
+
+         dataSocket.close();
+
+         System.out.println("Keyword search results sent successfully");
 
       } catch (Exception e) {
          System.out.println(e);
@@ -60,24 +102,24 @@ final class CentralRequestServer implements Runnable {
 
       try {
 
-        // Establish connection to client data TCP socket
-        Socket dataSocket = new Socket(clientName, dataPort);
-        DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
+         // Establish connection to client data TCP socket
+         Socket dataSocket = new Socket(clientName, dataPort);
+         DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
 
-        // Get array of all files in current directory
-        File[] files = new File(".").listFiles();
+         // Get array of all files in current directory
+         File[] files = new File(".").listFiles();
 
-        for (File file : files) {
-          dout.writeUTF(file.getName());
-        }
-        dout.writeUTF("END");
+         for (File file : files) {
+            dout.writeUTF(file.getName());
+         }
+         dout.writeUTF("END");
 
-        dout.close();
-        dout.flush();
-        controlOut.flush();
-        dataSocket.close();
+         dout.close();
+         dout.flush();
+         controlOut.flush();
+         dataSocket.close();
 
-        System.out.println("File List Sent To Client.");
+         System.out.println("File List Sent To Client.");
 
       } catch (Exception e) {
          System.out.println(e);
@@ -90,7 +132,7 @@ final class CentralRequestServer implements Runnable {
 
       try{
 
-        // Connect to client data TCP socket
+         // Connect to client data TCP socket
          Socket dataSocket = new Socket(clientName, dataPort);
          DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
 
@@ -113,7 +155,7 @@ final class CentralRequestServer implements Runnable {
          System.out.println("File Sent To Client.");
 
       } catch (Exception e) {
-        System.out.println(e);
+         System.out.println(e);
       }
 
    }
@@ -145,7 +187,7 @@ final class CentralRequestServer implements Runnable {
          System.out.println("File Saved Successfully...");
 
       } catch (Exception e) {
-           System.out.println(e);
+         System.out.println(e);
       }
 
    }
@@ -158,7 +200,7 @@ final class CentralRequestServer implements Runnable {
          try {
 
             String cmd = controlIn.readUTF();
-            System.out.println("Server recieved command: " + cmd);
+            System.out.println("Server received command: " + cmd);
 
             switch(cmd.toUpperCase()) {
                case "LIST":
@@ -180,16 +222,17 @@ final class CentralRequestServer implements Runnable {
                   clientName = controlIn.readUTF();
                   dataPort = Integer.parseInt(controlIn.readUTF());
                   break;
-               case "SENDUSERDATA":
+               case "USER":
+                  System.out.println("Calling SaveUserDetails...");
                   saveUserDetails();
                   break;
                case "TEST":
                   break;
             }
 
-     		} catch (Exception e) {
-     		    System.out.println(e);
-     		}
+         } catch (Exception e) {
+            System.out.println(e);
+         }
       }
    }
 }

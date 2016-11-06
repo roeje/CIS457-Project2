@@ -7,9 +7,9 @@ import java.awt.event.*;
 
 public class ExitListener extends WindowAdapter {
 
-    FtpRequestClient client;
+    FtpClientThread client;
 
-    public ExitListener(FtpRequestClient client) {
+    public ExitListener(FtpClientThread client) {
         this.client = client;
     }
 

@@ -25,7 +25,7 @@ public final class FtpClient {
    	// Socket socket = new Socket("localhost", port);
       System.out.println("FTP Client started:");
 
-   	FtpRequestClient client = new FtpRequestClient();
+   	FtpClientThread client = new FtpClientThread();
     	client.run();
     }
 }

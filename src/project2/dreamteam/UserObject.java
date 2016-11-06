@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Created by bcom3_000 on 11/5/2016.
  */
+
 public class UserObject implements java.io.Serializable{
     private String username;
     private String connectionSpeed;

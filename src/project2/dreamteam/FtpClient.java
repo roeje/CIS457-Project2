@@ -13,8 +13,8 @@ package project2.dreamteam;
 
 /*
 
-   Client Class that handles logic related to sending and receving files and commands
-   over TCP connctions
+   Client Class that handles logic related to sending and receiving files and commands
+   over TCP connections
 
 */
 
@@ -23,7 +23,7 @@ public final class FtpClient {
 
    	// Establish the listen socket.
    	// Socket socket = new Socket("localhost", port);
-      System.out.println("FTP Client started:");
+    System.out.println("FTP Client started:");
 
    	FtpClientThread client = new FtpClientThread();
     	client.run();

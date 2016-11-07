@@ -26,6 +26,8 @@ final class FtpClientThread implements Runnable {
     int controlPort;
     int dataPort;
 
+    Vector<FileObject> searchResults;
+
     String serverName;
     Socket controlSocket;
 
@@ -92,7 +94,7 @@ final class FtpClientThread implements Runnable {
         }
     }
 
-    void sendUserDetails (String username, String hostname, String connectionSpeed) {
+    void sendUserDetails (String username, String hostname, String connectionSpeed, String fileName) {
 
         System.out.println("Sending file: User Info to Server...");
         try{
@@ -112,6 +114,30 @@ final class FtpClientThread implements Runnable {
             dout.writeUTF(username);
             dout.writeUTF(hostname);
             dout.writeUTF(connectionSpeed);
+            dout.writeUTF(fileName);
+//            dout.flush();
+
+
+            File file = new File(fileName);
+
+            // Create byte array to hold file data
+            byte[] bytes = new byte[(int)file.length()];
+
+            // Create file input stream
+            FileInputStream fin = new FileInputStream(file);
+
+            // Create buffed stream for file stream
+            BufferedInputStream buffin = new BufferedInputStream(fin);
+
+            // Create data input stream for Buffed file stream
+            DataInputStream datain = new DataInputStream(buffin);
+
+            // Read file into byte array
+            datain.readFully(bytes, 0, bytes.length);
+
+            // Write byte array to data TCP connection
+            dout.writeLong(bytes.length);
+            dout.write(bytes, 0, bytes.length);
             dout.flush();
 
             // Close data TCP connection
@@ -122,12 +148,15 @@ final class FtpClientThread implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
+        finally {
+
+        }
 
     }
 
     void keywordSearch (String keyword) {
 
-        System.out.println("Sending file: User Info to Server...");
+        System.out.println("Sending KeywordSearch String to Sever...");
         try{
 
             // Send command to server
@@ -145,7 +174,19 @@ final class FtpClientThread implements Runnable {
             // Get file by name\
 
             dout.writeUTF(keyword);
-            din.readObject();
+            this.searchResults = (Vector<FileObject>) din.readObject();
+
+            System.out.println("Search Results Vector:");
+            System.out.println(this.searchResults.size());
+            System.out.println(this.searchResults.get(0).getFileName());
+
+            gui.getTable().setText("Speed        Host Name        File Name\n");
+
+            for (FileObject file: this.searchResults) {
+                gui.getTable().append(file.getFileName() + "        " + file.getDescription() + "       \n");
+            }
+
+            gui.getTable().repaint();
 
             dout.flush();
 
@@ -267,10 +308,10 @@ final class FtpClientThread implements Runnable {
             // Create file input stream
             FileInputStream fin = new FileInputStream(file);
 
-            // Create bufferd stream for file stream
+            // Create buffed stream for file stream
             BufferedInputStream buffin = new BufferedInputStream(fin);
 
-            // Create datainput stream for Bufferd file stream
+            // Create data input stream for Buffed file stream
             DataInputStream datain = new DataInputStream(buffin);
 
             // Read file into byte array

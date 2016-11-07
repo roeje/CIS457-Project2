@@ -22,34 +22,34 @@ import java.net.* ;
 
 public final class FtpServer {
     public static void main(String argv[]) throws Exception {
-   	// Get the port number from the command line.
-   	// int port = (new Integer(argv[0]));
+        // Get the port number from the command line.
+        // int port = (new Integer(argv[0]));
 
-      int port = 3202;
+        int port = 3208;
 
-   	// Establish the listen socket.
-      ServerSocket socket = new ServerSocket(port);
-      System.out.println("FTP Server started on port: " + port);
+        // Establish the listen socket.
+        ServerSocket socket = new ServerSocket(port);
+        System.out.println("FTP Server started on port: " + port);
 
-   	while (true) {
+        while (true) {
 
-         try {
+            try {
 
-           // Listen for a TCP connection request.
-    	     Socket connection = socket.accept();
+                // Listen for a TCP connection request.
+                Socket connection = socket.accept();
 
-    	     // Create FTP request object
-    	     FtpServerThread request = new FtpServerThread(connection);
+                // Create FTP request object
+                FtpServerThread request = new FtpServerThread(connection);
 
-    	     // Create a new thread to process the request.
-    	     Thread thread = new Thread(request);
+                // Create a new thread to process the request.
+                Thread thread = new Thread(request);
 
-    	     // Start the thread.
-    	     thread.start();
-         } catch (Exception e) {
-            System.out.println(e);
-         }
+                // Start the thread.
+                thread.start();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
 
-   	}
-   }
+        }
+    }
 }

@@ -96,7 +96,7 @@ public class GuiFrame extends JFrame {
 
                 String ip = serverIPField.getText();
                 int port = Integer.parseInt(portField.getText());
-                client.connectToServer(port, ip);
+                client.connectToCentralServer(port, ip);
                 client.sendUserDetails(usernameField.getText(), hostnameField.getText(), speedDropdown.getSelectedItem().toString(), fileListNameField.getText());
 
             }
@@ -133,7 +133,7 @@ public class GuiFrame extends JFrame {
         btnDisconnect.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                client.disconnect();
+                client.disconnectCentralServer();
             }
         });
 
@@ -235,7 +235,16 @@ public class GuiFrame extends JFrame {
             public void keyPressed(KeyEvent arg0) {
                 if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 
-                    // Run FTP Command
+                    String[] cmd = commandField.getText().split(" ");
+                    if (cmd[0].toLowerCase().equals("connect")) {
+                        client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
+                    }
+                    if (cmd[0].toLowerCase().equals("retr")) {
+                        client.requestFile(cmd[1]);
+                    }
+                    else {
+
+                    }
                 }
             }
         });

@@ -25,17 +25,21 @@ import java.util.* ;
 final class FtpClientThread implements Runnable {
     int controlPort;
     int dataPort;
+    String serverName;
+    Socket controlSocket;
+    DataInputStream controlIn;
+    DataOutputStream controlOut;
+
+    int centralControlPort;
+    int centralDataPort;
+    String centralServerName;
+    Socket centralControlSocket;
+    DataInputStream centralControlIn;
+    DataOutputStream centralControlOut;
 
     Vector<FileObject> searchResults;
 
-    String serverName;
-    Socket controlSocket;
-
     public static GuiFrame gui;
-
-    // Control Connection
-    DataInputStream controlIn;
-    DataOutputStream controlOut;
 
     // BufferedReader for user input
     BufferedReader br;
@@ -94,17 +98,49 @@ final class FtpClientThread implements Runnable {
         }
     }
 
+    void connectToCentralServer(int port, String serverName) {
+
+        // Set variables for connection information
+        this.centralServerName = serverName;
+        this.centralControlPort = port;
+        this.centralDataPort = centralControlPort + 1;
+
+        try {
+
+            // Connect to server
+            centralControlSocket = new Socket(serverName, port);
+
+            // Create input/output streams for to send commands
+            centralControlIn = new DataInputStream(this.centralControlSocket.getInputStream());
+            centralControlOut = new DataOutputStream(this.centralControlSocket.getOutputStream());
+
+            // Send client information: port number and ip to server to allow server to
+            // connect to data TCP connections remotely
+            centralControlOut.writeUTF("DATA");
+            InetAddress IP = InetAddress.getLocalHost();
+            String clientAddress = IP.getHostAddress();
+            centralControlOut.writeUTF(clientAddress);
+            centralControlOut.writeUTF(Integer.toString(this.centralControlPort + 1));
+
+            // Run test to ensure connection was established correctly
+            this.centralControlOut.writeUTF("TEST");
+            System.out.println("Connection Established to " + serverName + " on port: " + port);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
     void sendUserDetails (String username, String hostname, String connectionSpeed, String fileName) {
 
         System.out.println("Sending file: User Info to Server...");
         try{
 
             // Send command to server
-            controlOut.writeUTF("USER");
+            centralControlOut.writeUTF("USER");
 
 
             // Create data TCP connection
-            ServerSocket server = new ServerSocket(dataPort);
+            ServerSocket server = new ServerSocket(centralDataPort);
             Socket dataSocket = server.accept();
 
             // Create output stream to send file
@@ -160,11 +196,11 @@ final class FtpClientThread implements Runnable {
         try{
 
             // Send command to server
-            controlOut.writeUTF("KEYWORDSEARCH");
+            centralControlOut.writeUTF("KEYWORDSEARCH");
 
 
             // Create data TCP connection
-            ServerSocket server = new ServerSocket(dataPort);
+            ServerSocket server = new ServerSocket(centralDataPort);
             Socket dataSocket = server.accept();
 
             // Create output stream to send file
@@ -327,6 +363,18 @@ final class FtpClientThread implements Runnable {
             dataSocket.close();
             System.out.println("File Sent To Server...");
 
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    void disconnectCentralServer() {
+
+        try {
+            centralControlOut.writeUTF("QUIT");
+            System.out.println("Client Disconnected From: " + centralServerName);
+            centralControlSocket.close();
         } catch (Exception e) {
             System.out.println(e);
         }

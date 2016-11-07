@@ -15,7 +15,7 @@ import java.net.* ;
 
 /*
 
-   Client Class that handles logic related to sending and receving files and commands
+   Client Class that handles logic related to sending and receiving files and commands
    over TCP connctions
 
 */

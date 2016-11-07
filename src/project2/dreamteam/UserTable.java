@@ -7,17 +7,21 @@ import java.util.Vector;
  * Created by bcom3_000 on 11/5/2016.
  */
 public class UserTable implements Serializable{
-    private Vector <UserObject> users;
+    private static Vector <UserObject> users;
     public UserTable(){
          this.users = new Vector<>();
     }
 
-    public void addUser(String pUsername, String pConnectionSpeed, String pHostname){
+    public static void addUser(String pUsername, String pConnectionSpeed, String pHostname){
         UserObject newUser = new UserObject(pUsername, pConnectionSpeed, pHostname);
-        this.users.add(newUser);
+        users.add(newUser);
     }
 
     public boolean removeUser(String pUsername){
         return users.remove(pUsername);
+    }
+
+    public static Vector getUsers () {
+        return users;
     }
 }

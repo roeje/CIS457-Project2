@@ -1,3 +1,0 @@
-test1.txt,test1 file
-test2.txt,test2 file
-test3.txt,test3 file

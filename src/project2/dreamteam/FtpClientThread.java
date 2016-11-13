@@ -41,7 +41,7 @@ final class FtpClientThread implements Runnable {
     DataInputStream centralControlIn;
     DataOutputStream centralControlOut;
 
-    Vector<FileObject> searchResults;
+    Vector<ResultObject> searchResults;
 
     public static GuiFrame gui;
 
@@ -233,16 +233,18 @@ final class FtpClientThread implements Runnable {
             // Get file by name\
 
             dout.writeUTF(keyword);
-            this.searchResults = (Vector<FileObject>) din.readObject();
+            this.searchResults = (Vector<ResultObject>) din.readObject();
 
             System.out.println("Search Results Vector:");
             System.out.println(this.searchResults.size());
             System.out.println(this.searchResults.get(0).getFileName());
+            System.out.println(this.searchResults.get(0).getConnectionType());
+            System.out.println(this.searchResults.get(0).getUser());
 
             gui.getTable().setText("Speed        Host Name        File Name\n");
 
-            for (FileObject file: this.searchResults) {
-                gui.getTable().append(file.getFileName() + "        " + file.getDescription() + "       \n");
+            for (ResultObject result: this.searchResults) {
+                gui.getTable().append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
             }
 
             gui.getTable().repaint();

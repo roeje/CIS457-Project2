@@ -24,11 +24,17 @@ public class FileTable implements Serializable{
         }
     }
 
-    public Vector<FileObject> searchByDescription(String pKeyword){
-        Vector<FileObject> matches = new Vector<>();
+    public Vector<ResultObject> searchByDescription(String pKeyword, Vector<UserObject> users){
+        Vector<ResultObject> matches = new Vector<>();
         for (FileObject file : this.files){
             if(file.getDescription().toLowerCase().contains(pKeyword.toLowerCase())){
-                matches.add(file);
+                for (UserObject user : users) {
+                    if (user.getUsername().toLowerCase().equals(file.getUser().toLowerCase())) {
+                        ResultObject tmp = new ResultObject(file.getFileName(), file.getDescription(), user.getConnectionSpeed(), user.getUsername());
+                        matches.add(tmp);
+                        break;
+                    }
+                }
             }
         }
         return matches;

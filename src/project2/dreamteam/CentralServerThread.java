@@ -58,11 +58,11 @@ final class CentralServerThread implements Runnable {
             addUser(username, hostname, connectionSpeed);
             /*Save data to global data object*/
 
-            String newFileName = "copy_" + fileName;
+            String newFileName = username + "_" + fileName;
 
             int bytes;
 
-            OutputStream out = new FileOutputStream(("copy_" + fileName));
+            OutputStream out = new FileOutputStream((username + "_" + fileName));
             long sizeOfData = din.readLong();
             byte[] buffer = new byte[1024];
             while (sizeOfData > 0 && (bytes = din.read(buffer, 0, (int) Math.min(buffer.length, sizeOfData))) != -1) {
@@ -89,7 +89,7 @@ final class CentralServerThread implements Runnable {
                 System.out.println(fileO.getFileName());
             }
 
-
+            file.createNewFile();
             file.delete();
             dataSocket.close();
 
@@ -125,7 +125,8 @@ final class CentralServerThread implements Runnable {
             keyword = din.readUTF();
             System.out.println(keyword);
 
-            Vector<FileObject> results = files.searchByDescription(keyword);
+            Vector<ResultObject> results = files.searchByDescription(keyword, UserTable.getUsers());
+
             dout.writeObject(results);
 
             dataSocket.close();

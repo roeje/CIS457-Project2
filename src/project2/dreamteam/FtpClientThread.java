@@ -161,7 +161,6 @@ final class FtpClientThread implements Runnable {
             // Send command to server
             centralControlOut.writeUTF("USER");
 
-
             // Create data TCP connection
             ServerSocket server = new ServerSocket(centralDataPort);
             Socket dataSocket = server.accept();
@@ -174,8 +173,6 @@ final class FtpClientThread implements Runnable {
             dout.writeUTF(hostname);
             dout.writeUTF(connectionSpeed);
             dout.writeUTF(fileName);
-//            dout.flush();
-
 
             File file = new File(fileName);
 
@@ -213,6 +210,10 @@ final class FtpClientThread implements Runnable {
 
     }
 
+    void deregister() {
+
+    }
+
     void keywordSearch (String keyword) {
 
         System.out.println("Sending KeywordSearch String to Sever...");
@@ -230,7 +231,7 @@ final class FtpClientThread implements Runnable {
             DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
             ObjectInputStream din = new ObjectInputStream(dataSocket.getInputStream());
 
-            // Get file by name\
+            // Get file by name
 
             dout.writeUTF(keyword);
             this.searchResults = (Vector<ResultObject>) din.readObject();
@@ -420,7 +421,6 @@ final class FtpClientThread implements Runnable {
 
     // Implement the run() method of the Runnable interface.
     public void run() {
-
 
         // Wait for input from user. On input trigger appropriate function.
         System.out.println("FTP Client Started...");

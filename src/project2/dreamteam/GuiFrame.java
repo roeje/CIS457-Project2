@@ -1,7 +1,6 @@
 package project2.dreamteam;
 
 import java.awt.EventQueue;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -32,6 +31,10 @@ public class GuiFrame extends JFrame {
     protected JButton btnSearch;
 
     public static FtpClientThread client;
+
+    public TextArea getTable() {
+        return this.table;
+    }
 
     public JTextField getCommandField() {
         return commandField;
@@ -64,9 +67,6 @@ public class GuiFrame extends JFrame {
     public JComboBox getSpeedDropdown() {
         return speedDropdown;
     }
-
-
-
 
     /**
      * Create the frame.
@@ -194,13 +194,8 @@ public class GuiFrame extends JFrame {
         btnUnregister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                client.deregister();
 
-
-            }
-        });
-
-        btnUnregister.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
             }
         });
 
@@ -225,7 +220,6 @@ public class GuiFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
                     client.keywordSearch(keywordField.getText());
                     updateResults();
                 }
@@ -315,13 +309,8 @@ public class GuiFrame extends JFrame {
             }
         });
 
-
         btnGo.setBounds(622, 20, 89, 23);
         panel_2.add(btnGo);
-    }
-
-    public TextArea getTable() {
-        return this.table;
     }
 
     public void startGui() {

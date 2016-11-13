@@ -27,6 +27,7 @@ public class GuiFrame extends JFrame {
     private JTextField hostnameField;
     private JTextField fileListNameField;
     private JComboBox speedDropdown;
+    private TextArea commandTable;
 
     protected JButton btnSearch;
 
@@ -226,6 +227,7 @@ public class GuiFrame extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
                     client.keywordSearch(keywordField.getText());
+                    updateResults();
                 }
 
             }
@@ -240,6 +242,7 @@ public class GuiFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 client.keywordSearch(keywordField.getText());
+                updateResults();
             }
         });
 
@@ -258,9 +261,9 @@ public class GuiFrame extends JFrame {
         contentPane.add(panel_2);
         panel_2.setLayout(null);
 
-        TextArea textArea = new TextArea();
-        textArea.setBounds(10, 57, 701, 163);
-        panel_2.add(textArea);
+        commandTable = new TextArea();
+        commandTable.setBounds(10, 57, 701, 163);
+        panel_2.add(commandTable);
 
         JLabel lblCommand = new JLabel("Command: ");
         lblCommand.setBounds(10, 24, 69, 14);
@@ -272,7 +275,7 @@ public class GuiFrame extends JFrame {
             @Override
             public void keyPressed(KeyEvent arg0) {
                 if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-
+                    commandTable.append(commandField.getText());
                     String[] cmd = commandField.getText().split(" ");
                     if (cmd[0].toLowerCase().equals("connect")) {
                         client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
@@ -283,6 +286,7 @@ public class GuiFrame extends JFrame {
                     else {
 
                     }
+
                 }
             }
         });
@@ -296,6 +300,17 @@ public class GuiFrame extends JFrame {
         btnGo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                commandTable.append(commandField.getText() + '\n');
+                String[] cmd = commandField.getText().split(" ");
+                if (cmd[0].toLowerCase().equals("connect")) {
+                    client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
+                }
+                if (cmd[0].toLowerCase().equals("retr")) {
+                    client.requestFile(cmd[1]);
+                }
+                else {
+
+                }
 
             }
         });
@@ -321,6 +336,16 @@ public class GuiFrame extends JFrame {
                 }
             }
         });
+    }
+
+    public void updateResults(){
+        this.table.setText("Speed        Host Name        File Name\n");
+
+        for (ResultObject result: client.searchResults) {
+            this.table.append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
+        }
+
+        this.table.repaint();
     }
 
     /**

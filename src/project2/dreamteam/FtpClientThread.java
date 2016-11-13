@@ -241,13 +241,14 @@ final class FtpClientThread implements Runnable {
             System.out.println(this.searchResults.get(0).getConnectionType());
             System.out.println(this.searchResults.get(0).getUser());
 
-            gui.getTable().setText("Speed        Host Name        File Name\n");
+//            gui.getTable().setText("Speed        Host Name        File Name\n");
+//
+//            for (ResultObject result: this.searchResults) {
+//                gui.getTable().append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
+//            }
+//
+//            gui.getTable().repaint();
 
-            for (ResultObject result: this.searchResults) {
-                gui.getTable().append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
-            }
-
-            gui.getTable().repaint();
 
             dout.flush();
 

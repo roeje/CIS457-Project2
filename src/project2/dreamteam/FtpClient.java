@@ -1,7 +1,7 @@
 package project2.dreamteam;
 
 /*
-   CIS 457 - Project 1
+   CIS 457 - Project 2
 
    Created by:
 

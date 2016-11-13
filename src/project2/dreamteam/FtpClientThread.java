@@ -1,5 +1,9 @@
 package project2.dreamteam;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.* ;
 import java.net.* ;
 import java.util.* ;
@@ -50,7 +54,26 @@ final class FtpClientThread implements Runnable {
         System.out.println("Creating Gui");
         gui = new GuiFrame(this);
         gui.startGui();
-//      gui.addWindowListener(new ExitListener(this));
+//        gui.addWindowListener(new ExitListener(this));
+
+//        gui.keywordField.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//
+//                    keywordSearch(gui.keywordField.getText());
+//                }
+//            }
+//        });
+//
+//        gui.btnSearch.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                keywordSearch(gui.keywordField.getText());
+//            }
+//        });
+
 
         br = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -395,6 +418,7 @@ final class FtpClientThread implements Runnable {
 
     // Implement the run() method of the Runnable interface.
     public void run() {
+
 
         // Wait for input from user. On input trigger appropriate function.
         System.out.println("FTP Client Started...");

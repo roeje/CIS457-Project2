@@ -17,9 +17,9 @@ import java.awt.event.ActionEvent;
 
 public class GuiFrame extends JFrame {
 
-    private JPanel contentPane;
+    protected JPanel contentPane;
     private JTextField commandField;
-    private JTextField keywordField;
+    protected JTextField keywordField;
     private TextArea table;
     private JTextField serverIPField;
     private JTextField usernameField;
@@ -28,7 +28,43 @@ public class GuiFrame extends JFrame {
     private JTextField fileListNameField;
     private JComboBox speedDropdown;
 
+    protected JButton btnSearch;
+
     public static FtpClientThread client;
+
+    public JTextField getCommandField() {
+        return commandField;
+    }
+
+    public JTextField getKeywordField() {
+        return keywordField;
+    }
+
+    public JTextField getServerIPField() {
+        return serverIPField;
+    }
+
+    public JTextField getUsernameField() {
+        return usernameField;
+    }
+
+    public JTextField getPortField() {
+        return portField;
+    }
+
+    public JTextField getHostnameField() {
+        return hostnameField;
+    }
+
+    public JTextField getFileListNameField() {
+        return fileListNameField;
+    }
+
+    public JComboBox getSpeedDropdown() {
+        return speedDropdown;
+    }
+
+
 
 
     /**
@@ -110,6 +146,7 @@ public class GuiFrame extends JFrame {
         panel.add(lblHostname);
 
         hostnameField = new JTextField();
+        hostnameField.setText("localhost");
         hostnameField.setBounds(320, 59, 86, 20);
         panel.add(hostnameField);
         hostnameField.setColumns(10);
@@ -145,6 +182,7 @@ public class GuiFrame extends JFrame {
         panel.add(lblFileListName);
 
         fileListNameField = new JTextField();
+        fileListNameField.setText("fileList.txt");
         fileListNameField.setBounds(566, 59, 107, 20);
         panel.add(fileListNameField);
         fileListNameField.setColumns(10);
@@ -196,7 +234,7 @@ public class GuiFrame extends JFrame {
         panel_1.add(keywordField);
         keywordField.setColumns(10);
 
-        JButton btnSearch = new JButton("Search");
+        btnSearch = new JButton("Search");
 
         btnSearch.addMouseListener(new MouseAdapter() {
             @Override

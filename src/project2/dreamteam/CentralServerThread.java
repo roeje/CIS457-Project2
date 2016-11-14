@@ -11,8 +11,8 @@ final class CentralServerThread implements Runnable {
 
     Socket controlSocket;
 
-    protected static FileTable files;
-    protected static UserTable users;
+//    protected static FileTable files;
+//    protected static UserTable users;
 
     // Control Connection
     DataInputStream controlIn;
@@ -22,8 +22,8 @@ final class CentralServerThread implements Runnable {
     CentralServerThread(Socket socket, UserTable users, FileTable files) throws Exception {
         try {
 
-            this.files = files;
-            this.users = users;
+//            this.files = files;
+//            this.users = users;
 
             controlSocket = socket;
             controlIn = new DataInputStream(controlSocket.getInputStream());
@@ -80,6 +80,9 @@ final class CentralServerThread implements Runnable {
             System.out.println(connectionSpeed);
             System.out.println(hostname);
             System.out.println(fileName);
+
+            removeUser(username);
+            removeUserFiles(username);
 
             addUser(username, hostname, connectionSpeed);
             /*Save data to global data object*/
@@ -148,9 +151,15 @@ final class CentralServerThread implements Runnable {
         FileTable.deleteByUsername(userName);
     }
 
+    protected synchronized Vector<ResultObject> searchForFiles(String keyword) {
+
+         return FileTable.searchByDescription(keyword, UserTable.getUsers());
+    }
+
     void keywordSearchResults() {
         System.out.println("Keyword Results Request Received");
 
+        Vector<ResultObject> results;
         String keyword;
 
         try {
@@ -162,7 +171,7 @@ final class CentralServerThread implements Runnable {
             keyword = din.readUTF();
             System.out.println(keyword);
 
-            Vector<ResultObject> results = files.searchByDescription(keyword, UserTable.getUsers());
+            results = searchForFiles(keyword);
 
             dout.writeObject(results);
 

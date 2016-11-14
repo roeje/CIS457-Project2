@@ -54,7 +54,6 @@ final class FtpClientThread implements Runnable {
         System.out.println("Creating Gui");
         gui = new GuiFrame(this);
         gui.startGui();
-//        gui.addWindowListener(new ExitListener(this));
 
 //        gui.keywordField.addKeyListener(new KeyAdapter() {
 //            @Override
@@ -256,11 +255,11 @@ final class FtpClientThread implements Runnable {
             dout.writeUTF(keyword);
             this.searchResults = (Vector<ResultObject>) din.readObject();
 
-            System.out.println("Search Results Vector:");
-            System.out.println(this.searchResults.size());
-            System.out.println(this.searchResults.get(0).getFileName());
-            System.out.println(this.searchResults.get(0).getConnectionType());
-            System.out.println(this.searchResults.get(0).getUser());
+//            System.out.println("Search Results Vector:");
+//            System.out.println(this.searchResults.size());
+//            System.out.println(this.searchResults.get(0).getFileName());
+//            System.out.println(this.searchResults.get(0).getConnectionType());
+//            System.out.println(this.searchResults.get(0).getUser());
 
 //            gui.getTable().setText("Speed        Host Name        File Name\n");
 //
@@ -423,7 +422,9 @@ final class FtpClientThread implements Runnable {
             System.out.println("Client Disconnected From: " + centralServerName);
             centralControlSocket.close();
         } catch (Exception e) {
+            System.out.println("Error Quitting");
             System.out.println(e);
+            System.exit(1);
         }
 
     }
@@ -435,7 +436,9 @@ final class FtpClientThread implements Runnable {
             System.out.println("Client Disconnected From: " + serverName);
             controlSocket.close();
         } catch (Exception e) {
+            System.out.println("Error Quitting");
             System.out.println(e);
+            System.exit(1);
         }
 
     }

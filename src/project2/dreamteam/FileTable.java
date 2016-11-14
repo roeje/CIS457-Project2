@@ -8,7 +8,7 @@ import java.util.Vector;
 public class FileTable implements Serializable{
     private static Vector <FileObject> files;
     public FileTable(){
-        this.files = new Vector<>();
+        files = new Vector<>();
     }
 
     public static void addFile(String pName, String pDescription, String pUser){
@@ -25,9 +25,9 @@ public class FileTable implements Serializable{
         return false;
     }
 
-    public Vector<ResultObject> searchByDescription(String pKeyword, Vector<UserObject> users){
+    public static Vector<ResultObject> searchByDescription(String pKeyword, Vector<UserObject> users){
         Vector<ResultObject> matches = new Vector<>();
-        for (FileObject file : this.files){
+        for (FileObject file : files){
             if(file.getDescription().toLowerCase().contains(pKeyword.toLowerCase())){
                 for (UserObject user : users) {
                     if (user.getUsername().equals(file.getUser())) {

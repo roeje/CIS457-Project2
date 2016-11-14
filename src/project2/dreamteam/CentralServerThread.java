@@ -33,6 +33,32 @@ final class CentralServerThread implements Runnable {
         }
     }
 
+    void deregister() {
+
+
+        String username;
+        try {
+
+            Socket dataSocket = new Socket(clientName, dataPort);
+            DataInputStream din = new DataInputStream(dataSocket.getInputStream());
+
+            username = din.readUTF();
+            System.out.println("Removing user: " + username);
+
+            removeUser(username);
+            removeUserFiles(username);
+
+
+
+            dataSocket.close();
+
+            System.out.println("User: " + username + " deregister");
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     void saveUserDetails() {
         System.out.println("User save command received from Client.");
 
@@ -106,9 +132,20 @@ final class CentralServerThread implements Runnable {
         UserTable.addUser(userName, connectionSpeed, hostname);
     }
 
+    protected synchronized void removeUser (String userName) {
+
+        UserTable.removeUser(userName);
+    }
+
+
     protected synchronized void addFile (String fileName, String description, String userName) {
 
         FileTable.addFile(fileName, description, userName);
+    }
+
+    protected synchronized void removeUserFiles (String userName) {
+
+        FileTable.deleteByUsername(userName);
     }
 
     void keywordSearchResults() {
@@ -236,6 +273,9 @@ final class CentralServerThread implements Runnable {
                         break;
                     case "KEYWORDSEARCH":
                         keywordSearchResults();
+                        break;
+                    case "DEREGISTER":
+                        deregister();
                         break;
                     case "TEST":
                         break;

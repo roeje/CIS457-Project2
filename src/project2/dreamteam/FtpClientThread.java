@@ -210,8 +210,28 @@ final class FtpClientThread implements Runnable {
 
     }
 
-    void deregister() {
+    void deregister(String username) {
+        try {
+            centralControlOut.writeUTF("DEREGISTER");
 
+            // Create data TCP connection
+            ServerSocket server = new ServerSocket(centralDataPort);
+            Socket dataSocket = server.accept();
+
+            // Create output stream to send file
+            DataOutputStream dout = new DataOutputStream(dataSocket.getOutputStream());
+
+            // Get file by name
+            dout.writeUTF(username);
+
+            server.close();
+            dataSocket.close();
+            System.out.println("Deregister Finished.");
+
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     void keywordSearch (String keyword) {

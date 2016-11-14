@@ -194,7 +194,7 @@ public class GuiFrame extends JFrame {
         btnUnregister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                client.deregister();
+                client.deregister(usernameField.getText());
 
             }
         });

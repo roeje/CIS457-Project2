@@ -16,12 +16,13 @@ public class FileTable implements Serializable{
         files.add(newFile);
     }
 
-    public void cascadeByUsername(String pUsername){
-        for (FileObject file : this.files){
-            if(file.getFileName().equals(pUsername)){
-                this.files.remove(file);
+    public static boolean deleteByUsername(String pUsername){
+        for (FileObject file : files){
+            if(file.getUser().equals(pUsername)){
+                return files.remove(file);
             }
         }
+        return false;
     }
 
     public Vector<ResultObject> searchByDescription(String pKeyword, Vector<UserObject> users){
@@ -29,7 +30,7 @@ public class FileTable implements Serializable{
         for (FileObject file : this.files){
             if(file.getDescription().toLowerCase().contains(pKeyword.toLowerCase())){
                 for (UserObject user : users) {
-                    if (user.getUsername().toLowerCase().equals(file.getUser().toLowerCase())) {
+                    if (user.getUsername().equals(file.getUser())) {
                         ResultObject tmp = new ResultObject(file.getFileName(), file.getDescription(), user.getConnectionSpeed(), user.getUsername());
                         matches.add(tmp);
                         break;

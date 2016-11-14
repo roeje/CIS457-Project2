@@ -17,8 +17,13 @@ public class UserTable implements Serializable{
         users.add(newUser);
     }
 
-    public boolean removeUser(String pUsername){
-        return users.remove(pUsername);
+    public static boolean removeUser(String username){
+        for (UserObject user : users) {
+            if (user.getUsername().equals(username)) {
+                return users.remove(user);
+            }
+        }
+        return false;
     }
 
     public static Vector getUsers () {

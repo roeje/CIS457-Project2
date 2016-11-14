@@ -260,15 +260,16 @@ public class GuiFrame extends JFrame {
                 if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
                     commandTable.append(">>" + commandField.getText() + "\n");
                     String[] cmd = commandField.getText().split(" ");
+                    commandField.setText("");
                     if (cmd[0].toLowerCase().equals("connect")) {
                         client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
                         commandTable.append("Connecting to Peer Sever: " + client.serverName + "\n");
                     }
-                    if (cmd[0].toLowerCase().equals("retr")) {
+                    else if (cmd[0].toLowerCase().equals("retr")) {
                         client.requestFile(cmd[1]);
                         commandTable.append("Requesting File: " + cmd[1] + "\n");
                     }
-                    if (cmd[0].toLowerCase().equals("quit")) {
+                    else if (cmd[0].toLowerCase().equals("quit")) {
                         client.disconnect();
                         commandTable.append("Disconnected from Peer Sever: " + client.serverName + "\n");
                     }
@@ -290,15 +291,16 @@ public class GuiFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 commandTable.append(">> " + commandField.getText() + '\n');
                 String[] cmd = commandField.getText().split(" ");
+                commandField.setText("");
                 if (cmd[0].toLowerCase().equals("connect")) {
                     client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
                     commandTable.append("Connecting to Peer Sever: " + client.serverName + "\n");
                 }
-                if (cmd[0].toLowerCase().equals("retr")) {
+                else if (cmd[0].toLowerCase().equals("retr")) {
                     client.requestFile(cmd[1]);
                     commandTable.append("Requesting File: " + cmd[1] + "\n");
                 }
-                if (cmd[0].toLowerCase().equals("quit")) {
+                else if (cmd[0].toLowerCase().equals("quit")) {
                     client.disconnect();
                     commandTable.append("Disconnected from Peer Sever: " + client.serverName + "\n");
                 }

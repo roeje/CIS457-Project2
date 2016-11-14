@@ -11,8 +11,8 @@ final class CentralServerThread implements Runnable {
 
     Socket controlSocket;
 
-//    protected static FileTable files;
-//    protected static UserTable users;
+    protected static FileTable files;
+    protected static UserTable users;
 
     // Control Connection
     DataInputStream controlIn;
@@ -22,8 +22,8 @@ final class CentralServerThread implements Runnable {
     CentralServerThread(Socket socket, UserTable users, FileTable files) throws Exception {
         try {
 
-//            this.files = files;
-//            this.users = users;
+            this.files = files;
+            this.users = users;
 
             controlSocket = socket;
             controlIn = new DataInputStream(controlSocket.getInputStream());
@@ -52,6 +52,9 @@ final class CentralServerThread implements Runnable {
 
             System.out.println("User: " + username + " deregister");
 
+            printUsers();
+            printFiles();
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -79,11 +82,15 @@ final class CentralServerThread implements Runnable {
             System.out.println(hostname);
             System.out.println(fileName);
 
+
+//            synchronized (UserTable.removeUser(username));
             removeUser(username);
             removeUserFiles(username);
 
             /*Save data to global data object*/
             addUser(username, hostname, connectionSpeed);
+
+//            printUsers();
 
             String newFileName = username + "_" + fileName;
 
@@ -136,7 +143,6 @@ final class CentralServerThread implements Runnable {
         UserTable.removeUser(userName);
     }
 
-
     protected synchronized void addFile (String fileName, String description, String userName) {
 
         FileTable.addFile(fileName, description, userName);
@@ -150,6 +156,14 @@ final class CentralServerThread implements Runnable {
     protected synchronized Vector<ResultObject> searchForFiles(String keyword) {
 
          return FileTable.searchByDescription(keyword, UserTable.getUsers());
+    }
+
+    protected synchronized void printUsers() {
+        UserTable.printUsers();
+    }
+
+    protected synchronized void printFiles() {
+        FileTable.printFiles();
     }
 
     void keywordSearchResults() {

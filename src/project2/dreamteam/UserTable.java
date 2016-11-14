@@ -17,16 +17,25 @@ public class UserTable implements Serializable{
         users.add(newUser);
     }
 
-    public static boolean removeUser(String username){
-        for (UserObject user : users) {
+    public static void removeUser(String username){
+//        Vector<UserObject> removeList = new Vector<>();
+        for (UserObject user : (Vector<UserObject>)users.clone()) {
             if (user.getUsername().equals(username)) {
-                return users.remove(user);
+                users.remove(user);
             }
         }
-        return false;
+//        users.removeAll(removeList);
     }
 
     public static Vector getUsers () {
         return users;
+    }
+
+    public static void printUsers() {
+        for (UserObject user : users) {
+            System.out.println("---------------------------");
+            System.out.println(user.getUsername());
+            System.out.println("---------------------------");
+        }
     }
 }

@@ -16,13 +16,12 @@ public class FileTable implements Serializable{
         files.add(newFile);
     }
 
-    public static boolean deleteByUsername(String pUsername){
-        for (FileObject file : files){
+    public static void deleteByUsername(String pUsername){
+        for (FileObject file : (Vector<FileObject>)files.clone()){
             if(file.getUser().equals(pUsername)){
-                return files.remove(file);
+                files.remove(file);
             }
         }
-        return false;
     }
 
     public static Vector<ResultObject> searchByDescription(String pKeyword, Vector<UserObject> users){
@@ -43,6 +42,16 @@ public class FileTable implements Serializable{
 
     public static Vector getFiles () {
         return files;
+    }
+
+
+    public static void printFiles() {
+        for (FileObject file : files) {
+            System.out.println("---------------------------");
+            System.out.println(file.getFileName());
+            System.out.println(file.getUser());
+            System.out.println(file.getDescription());
+        }
     }
 
 }

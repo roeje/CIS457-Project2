@@ -48,8 +48,6 @@ final class CentralServerThread implements Runnable {
             removeUser(username);
             removeUserFiles(username);
 
-
-
             dataSocket.close();
 
             System.out.println("User: " + username + " deregister");
@@ -84,13 +82,12 @@ final class CentralServerThread implements Runnable {
             removeUser(username);
             removeUserFiles(username);
 
-            addUser(username, hostname, connectionSpeed);
             /*Save data to global data object*/
+            addUser(username, hostname, connectionSpeed);
 
             String newFileName = username + "_" + fileName;
 
             int bytes;
-
             OutputStream out = new FileOutputStream((username + "_" + fileName));
             long sizeOfData = din.readLong();
             byte[] buffer = new byte[1024];
@@ -101,7 +98,6 @@ final class CentralServerThread implements Runnable {
             out.close();
 
             /*Process newly saved file: Need to refactor to bypass the need to save file every time*/
-
             File file = new File(newFileName);
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -182,7 +178,6 @@ final class CentralServerThread implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     // Implement logic to list content of current working directory
@@ -247,11 +242,11 @@ final class CentralServerThread implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     // Implement the run() method of the Runnable interface.
     public void run() {
+
         // Listen on command connection for Command from client. Trigger correct function based on client command.
         System.out.println("Server Thread Started:");
         while(true) {

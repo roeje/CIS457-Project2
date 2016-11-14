@@ -121,7 +121,6 @@ public class GuiFrame extends JFrame {
 
         JButton btnConnect = new JButton("Connect");
 
-
         btnConnect.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
@@ -185,12 +184,10 @@ public class GuiFrame extends JFrame {
 
         JButton btnUnregister = new JButton("Unregister");
 
-
         btnUnregister.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 client.deregister(usernameField.getText());
-
             }
         });
 
@@ -213,12 +210,10 @@ public class GuiFrame extends JFrame {
         keywordField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     client.keywordSearch(keywordField.getText());
                     updateResults();
                 }
-
             }
         });
         keywordField.setBounds(75, 21, 537, 20);
@@ -234,7 +229,6 @@ public class GuiFrame extends JFrame {
                 updateResults();
             }
         });
-
 
         btnSearch.setBackground(new Color(240, 240, 240));
         btnSearch.setBounds(622, 20, 89, 23);
@@ -264,18 +258,23 @@ public class GuiFrame extends JFrame {
             @Override
             public void keyPressed(KeyEvent arg0) {
                 if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-                    commandTable.append(commandField.getText());
+                    commandTable.append(">>" + commandField.getText() + "\n");
                     String[] cmd = commandField.getText().split(" ");
                     if (cmd[0].toLowerCase().equals("connect")) {
                         client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
+                        commandTable.append("Connecting to Peer Sever: " + client.serverName + "\n");
                     }
                     if (cmd[0].toLowerCase().equals("retr")) {
                         client.requestFile(cmd[1]);
+                        commandTable.append("Requesting File: " + cmd[1] + "\n");
+                    }
+                    if (cmd[0].toLowerCase().equals("quit")) {
+                        client.disconnect();
+                        commandTable.append("Disconnected from Peer Sever: " + client.serverName + "\n");
                     }
                     else {
-
+                        commandTable.append("Invalid Command...\n");
                     }
-
                 }
             }
         });
@@ -289,18 +288,23 @@ public class GuiFrame extends JFrame {
         btnGo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                commandTable.append(commandField.getText() + '\n');
+                commandTable.append(">> " + commandField.getText() + '\n');
                 String[] cmd = commandField.getText().split(" ");
                 if (cmd[0].toLowerCase().equals("connect")) {
                     client.connectToServer(Integer.parseInt(cmd[2]), cmd[1]);
+                    commandTable.append("Connecting to Peer Sever: " + client.serverName + "\n");
                 }
                 if (cmd[0].toLowerCase().equals("retr")) {
                     client.requestFile(cmd[1]);
+                    commandTable.append("Requesting File: " + cmd[1] + "\n");
+                }
+                if (cmd[0].toLowerCase().equals("quit")) {
+                    client.disconnect();
+                    commandTable.append("Disconnected from Peer Sever: " + client.serverName + "\n");
                 }
                 else {
-
+                    commandTable.append("Invalid Command...\n");
                 }
-
             }
         });
 
@@ -362,11 +366,12 @@ public class GuiFrame extends JFrame {
 
     public void updateResults(){
         this.table.setText("Speed        Host Name        File Name\n");
+        this.table.append("---------------------------------------------\n");
 
         for (ResultObject result: client.searchResults) {
             this.table.append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
+            this.table.append("---------------------------------------------\n");
         }
-
         this.table.repaint();
     }
 

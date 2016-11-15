@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.* ;
 
 /*
-   CIS 457 - Project 1
+   CIS 457 - Project 2
 
    Created by:
 
@@ -16,7 +16,7 @@ import java.net.* ;
 
 /*
 
-   Client Class that handles logic related to sending and receiving files and commands
+   Central Server Class that handles logic related to sending and receiving files and commands
    over TCP connections
 
 */

@@ -30,7 +30,7 @@ public class FileTable implements Serializable{
             if(file.getDescription().toLowerCase().contains(pKeyword.toLowerCase())){
                 for (UserObject user : users) {
                     if (user.getUsername().equals(file.getUser())) {
-                        ResultObject tmp = new ResultObject(file.getFileName(), file.getDescription(), user.getConnectionSpeed(), user.getUsername());
+                        ResultObject tmp = new ResultObject(file.getFileName(), file.getDescription(), user.getConnectionSpeed(), user.getUsername(), user.getHostname());
                         matches.add(tmp);
                         break;
                     }

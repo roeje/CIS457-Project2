@@ -3,6 +3,17 @@ package project2.dreamteam;
 import java.io.Serializable;
 import java.util.Vector;
 
+/*
+   CIS 457 - Project 2
+
+   Created by:
+
+      Jesse Roe
+      Ben Commet
+      Brandon Attala
+
+*/
+
 /**
  * Created by bcom3_000 on 11/5/2016.
  */

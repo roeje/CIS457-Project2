@@ -4,6 +4,17 @@ import java.io.* ;
 import java.net.* ;
 import java.util.* ;
 
+/*
+   CIS 457 - Project 2
+
+   Created by:
+
+      Jesse Roe
+      Ben Commet
+      Brandon Attala
+
+*/
+
 final class CentralServerThread implements Runnable {
     final static String CRLF = "\r\n";
     String clientName;

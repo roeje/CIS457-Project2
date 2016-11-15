@@ -2,9 +2,16 @@ package project2.dreamteam;
 
 import java.io.Serializable;
 
-/**
- * Created by bcom3_000 on 11/5/2016.
- */
+/*
+   CIS 457 - Project 2
+
+   Created by:
+
+      Jesse Roe
+      Ben Commet
+      Brandon Attala
+
+*/
 
 public class UserObject implements java.io.Serializable{
     private String username;

@@ -3,7 +3,7 @@ package project2.dreamteam;
 import java.net.* ;
 
 /*
-   CIS 457 - Project 1
+   CIS 457 - Project 2
 
    Created by:
 

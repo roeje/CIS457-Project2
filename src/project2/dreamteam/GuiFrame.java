@@ -9,6 +9,17 @@ import java.awt.Color;
 import java.awt.TextArea;
 import java.awt.event.*;
 
+/*
+   CIS 457 - Project 2
+
+   Created by:
+
+      Jesse Roe
+      Ben Commet
+      Brandon Attala
+
+*/
+
 public class GuiFrame extends JFrame {
 
     protected JPanel contentPane;
@@ -369,11 +380,11 @@ public class GuiFrame extends JFrame {
     }
 
     public void updateResults(){
-        this.table.setText("Speed        Host Name        File Name\n");
+        this.table.setText("Speed        Host Name        File Name         User Name\n");
         this.table.append("---------------------------------------------------------------------------------\n");
 
         for (ResultObject result: client.searchResults) {
-            this.table.append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
+            this.table.append(result.getConnectionType() + "        " + result.getHostName() + "        " + result.getFileName() + "        " + result.getUser() + "\n");
             this.table.append("---------------------------------------------------------------------------------\n");
         }
         this.table.repaint();

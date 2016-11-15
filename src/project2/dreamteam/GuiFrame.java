@@ -370,11 +370,11 @@ public class GuiFrame extends JFrame {
 
     public void updateResults(){
         this.table.setText("Speed        Host Name        File Name\n");
-        this.table.append("---------------------------------------------\n");
+        this.table.append("---------------------------------------------------------------------------------\n");
 
         for (ResultObject result: client.searchResults) {
             this.table.append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
-            this.table.append("---------------------------------------------\n");
+            this.table.append("---------------------------------------------------------------------------------\n");
         }
         this.table.repaint();
     }

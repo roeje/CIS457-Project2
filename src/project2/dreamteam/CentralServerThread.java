@@ -80,10 +80,10 @@ final class CentralServerThread implements Runnable {
             connectionSpeed = din.readUTF();
             fileName = din.readUTF();
 
-            System.out.println(username);
-            System.out.println(connectionSpeed);
-            System.out.println(hostname);
-            System.out.println(fileName);
+//            System.out.println(username);
+//            System.out.println(connectionSpeed);
+//            System.out.println(hostname);
+//            System.out.println(fileName);
 
 
 //            synchronized (UserTable.removeUser(username));
@@ -114,15 +114,15 @@ final class CentralServerThread implements Runnable {
             String[] elements;
             while ((line = br.readLine()) != null) {
                 elements = line.split(",");
-                System.out.println(elements[0]);
+//                System.out.println(elements[0]);
                 addFile(elements[0], elements[1], username);
             }
             System.out.println("Current FileTable");
             Vector<FileObject> tmp = FileTable.getFiles();
 
-            for (FileObject fileO: tmp) {
-                System.out.println(fileO.getFileName());
-            }
+//            for (FileObject fileO: tmp) {
+//                System.out.println(fileO.getFileName());
+//            }
 
             file.createNewFile();
             file.delete();
@@ -301,11 +301,9 @@ final class CentralServerThread implements Runnable {
                     case "QUIT":
                         System.out.println("Client Disconnecting...");
 
-
                         writeToFile(userTableFile, users);
                         writeToFile(fileTableFile, files);
                         controlSocket.close();
-
 
                         return;
                     case "DATA":

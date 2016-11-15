@@ -1,5 +1,6 @@
 package project2.dreamteam;
 
+import java.io.*;
 import java.net.* ;
 
 /*
@@ -23,9 +24,27 @@ import java.net.* ;
 public final class CentralServer {
     public static void main(String argv[]) throws Exception {
         int port = 3202;
-        UserTable users = new UserTable();
 
-        FileTable files =  new FileTable();
+        UserTable users;
+        FileTable files;
+
+        String userTableFile = "users.db";
+        String fileTableFile = "file.db";
+
+        boolean userExists = new File(userTableFile).exists();
+        boolean fileExists = new File(fileTableFile).exists();
+
+        if (fileExists && userExists) {
+            users = readUserTable(userTableFile);
+            files = readFileTable(fileTableFile);
+        }
+        else {
+            users = new UserTable();
+            files =  new FileTable();
+        }
+
+        users = new UserTable();
+        files = new FileTable();
 
         // Establish the listen socket.
         ServerSocket socket = new ServerSocket(port);
@@ -33,9 +52,9 @@ public final class CentralServer {
 
         while (true) {
 
-             try {
+            try {
 
-              // Listen for a TCP connection request.
+                // Listen for a TCP connection request.
                 Socket connection = socket.accept();
 
                 // Create FTP request object
@@ -46,10 +65,55 @@ public final class CentralServer {
 
                 // Start the thread.
                 thread.start();
-             } catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println(e);
-             }
-
+                return;
+            }
         }
-   }
+    }
+
+
+    private static boolean writeToFile(String fileName, Object object) {
+        try {
+            final ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+
+            try {
+                out.writeObject(object);
+            } catch (Exception e) {
+                return false;
+            } finally {
+                out.close();
+            }
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private static UserTable readUserTable (String fileName) {
+        UserTable tmp;
+        try {
+            final ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)));
+            tmp = (UserTable) in.readObject();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return tmp;
+    }
+
+    private static FileTable readFileTable (String fileName) {
+        FileTable tmp;
+        try {
+            final ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)));
+            tmp = (FileTable) in.readObject();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return tmp;
+    }
 }

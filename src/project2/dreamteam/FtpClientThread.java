@@ -54,26 +54,6 @@ final class FtpClientThread implements Runnable {
         System.out.println("Creating Gui");
         gui = new GuiFrame(this);
         gui.startGui();
-
-//        gui.keywordField.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//
-//                    keywordSearch(gui.keywordField.getText());
-//                }
-//            }
-//        });
-//
-//        gui.btnSearch.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                keywordSearch(gui.keywordField.getText());
-//            }
-//        });
-
-
         br = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -241,7 +221,6 @@ final class FtpClientThread implements Runnable {
             // Send command to server
             centralControlOut.writeUTF("KEYWORDSEARCH");
 
-
             // Create data TCP connection
             ServerSocket server = new ServerSocket(centralDataPort);
             Socket dataSocket = server.accept();
@@ -254,21 +233,6 @@ final class FtpClientThread implements Runnable {
 
             dout.writeUTF(keyword);
             this.searchResults = (Vector<ResultObject>) din.readObject();
-
-//            System.out.println("Search Results Vector:");
-//            System.out.println(this.searchResults.size());
-//            System.out.println(this.searchResults.get(0).getFileName());
-//            System.out.println(this.searchResults.get(0).getConnectionType());
-//            System.out.println(this.searchResults.get(0).getUser());
-
-//            gui.getTable().setText("Speed        Host Name        File Name\n");
-//
-//            for (ResultObject result: this.searchResults) {
-//                gui.getTable().append(result.getConnectionType() + "        " + result.getUser() + "        " + result.getFileName() + "\n");
-//            }
-//
-//            gui.getTable().repaint();
-
 
             dout.flush();
 

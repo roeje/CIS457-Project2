@@ -9,6 +9,9 @@ final class CentralServerThread implements Runnable {
     String clientName;
     int dataPort;
 
+    String userTableFile = "users.db";
+    String fileTableFile = "file.db";
+
     Socket controlSocket;
 
     protected static FileTable files;
@@ -155,7 +158,7 @@ final class CentralServerThread implements Runnable {
 
     protected synchronized Vector<ResultObject> searchForFiles(String keyword) {
 
-         return FileTable.searchByDescription(keyword, UserTable.getUsers());
+        return FileTable.searchByDescription(keyword, UserTable.getUsers());
     }
 
     protected synchronized void printUsers() {
@@ -258,6 +261,24 @@ final class CentralServerThread implements Runnable {
         }
     }
 
+    private static boolean writeToFile(String fileName, Object object) {
+        try {
+            final ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+
+            try {
+                out.writeObject(object);
+            } catch (Exception e) {
+                return false;
+            } finally {
+                out.close();
+            }
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     // Implement the run() method of the Runnable interface.
     public void run() {
 
@@ -279,7 +300,13 @@ final class CentralServerThread implements Runnable {
                         break;
                     case "QUIT":
                         System.out.println("Client Disconnecting...");
+
+
+                        writeToFile(userTableFile, users);
+                        writeToFile(fileTableFile, files);
                         controlSocket.close();
+
+
                         return;
                     case "DATA":
                         clientName = controlIn.readUTF();

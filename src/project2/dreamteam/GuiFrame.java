@@ -153,7 +153,9 @@ public class GuiFrame extends JFrame {
         speedDropdown = new JComboBox();
 
         speedDropdown.addItem("Ethernet");
+        speedDropdown.addItem("Modem");
         speedDropdown.addItem("T1");
+        speedDropdown.addItem("T2");
         speedDropdown.addItem("DSL");
         speedDropdown.addItem("Dial-Up");
 

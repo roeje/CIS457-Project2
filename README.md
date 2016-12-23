@@ -17,13 +17,13 @@ The central server aspect of this project was implemented using a modified versi
 All three main classes of Project 2 were implemented to be multi threaded, with multiple clients able to connect to both the remote (peer) server and the central server concurrently as well as access and modify data stored on the central server concurrently. Each server class is implemented using a threaded design with each unique connection from a client class being handled by its own independent logic thread. The two data classes utilized by the central server are both thread safe with each function that access or modifies stored data implemented as synchronized.
 
 ###Features:
-*Project 2 features a GUI interface implemented with the javax.swing library.
-*Concurrent remote and central servers implemented using a threaded architecture
-*Synchronous access to data structures (all threads can modify and read from data structures concurrently)
-*Users register relevant information to central server on connect (username, hostname (IP), connection speed)
-*Users store list of local files on local document. This document is automatically synced to the central server on peer connect and is used to create and maintain a list of files available on each remote server.
-*User information and file details are stored in database files on central server
-*Clients can connect/disconnect from central server without affecting the data that the central server is tracking for that user
-*Users can deregister from the central server, removing all tracked information for that user
-*Search functionality that allows users to search for a particular file tracked by the central server using a keyword
-*Object Output / Input Streams are used to send data vectors between central server and peer client
+* Project 2 features a GUI interface implemented with the javax.swing library.
+* Concurrent remote and central servers implemented using a threaded architecture
+* Synchronous access to data structures (all threads can modify and read from data structures concurrently)
+* Users register relevant information to central server on connect (username, hostname (IP), connection speed)
+* Users store list of local files on local document. This document is automatically synced to the central server on peer connect and is used to create and maintain a list of files available on each remote server.
+* User information and file details are stored in database files on central server
+* Clients can connect/disconnect from central server without affecting the data that the central server is tracking for that user
+* Users can deregister from the central server, removing all tracked information for that user
+* Search functionality that allows users to search for a particular file tracked by the central server using a keyword
+* Object Output / Input Streams are used to send data vectors between central server and peer client
